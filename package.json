@@ -1,0 +1,16 @@
+{
+  "name": "rainforest-run-info",
+  "version": "1.0.0",
+  "description": "Provides access to information about the currently executed Rainforest QA run test environment.",
+  "main": "/src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "git+https://github.com/rainforestapp/rainforest-run-info.git",
+  "author": "Rainforest QA",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rainforestapp/rainforest-run-info/issues"
+  },
+  "homepage": "https://github.com/rainforestapp/rainforest-run-info#readme"
+}
