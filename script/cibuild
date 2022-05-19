@@ -1,6 +1,0 @@
-#!/bin/sh
-
-set -uo pipefail
-
-./script/test
-yarn build

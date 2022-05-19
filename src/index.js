@@ -1,6 +1,6 @@
 import fetch from 'cross-fetch';
 
-const MACHINE_METADATA_API_URL = 'https://vcontrol.ext.prd.rnfrst.com/1/machines/metadata';
+const MACHINE_METADATA_API_URL = 'https://run-info.rainforestqa.com/latest/metadata';
 
 export const fetchRunInfo = async () => {
   try {
