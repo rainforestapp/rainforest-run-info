@@ -56,3 +56,6 @@ setSentryContext();
   </body>
 </html>
 ```
+
+# Development
+Run `script/bootstrap` to install dependencies and `script/test` to run unit tests.
