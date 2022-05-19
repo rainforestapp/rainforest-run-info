@@ -2,9 +2,4 @@
 
 set -eo pipefail
 
-if [ -n "$1" ]; then
-  # pass arguments to test call. This is useful for calling a single test.
-  yarn run test "$1"
-else
-  yarn run test
-fi
+yarn run test $*
