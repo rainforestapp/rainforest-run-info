@@ -12,7 +12,7 @@ describe('fetchRunInfo', () => {
 
     const response = await fetchRunInfo();
 
-    expect(fetch).toBeCalledWith('https://vcontrol.ext.prd.rnfrst.com/1/machines/metadata');
+    expect(fetch).toBeCalledWith('https://run-info.rainforestqa.com/latest/metadata');
     expect(response).toEqual({
       resultUrl: 'https://app.rainforestqa.com/runs/33/tests/1337',
       runId: 33,
@@ -21,7 +21,7 @@ describe('fetchRunInfo', () => {
   });
 
   it('returns info message instead of resultUrl in case run ID or test ID is missing in response', async () => {
-    fetch.mockResponseOnce(JSON.stringify({}) );
+    fetch.mockResponseOnce(JSON.stringify({}));
 
     const response = await fetchRunInfo();
 

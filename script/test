@@ -1,5 +1,5 @@
 #!/bin/sh
 
-set -uo pipefail
+set -eo pipefail
 
-yarn run test
+yarn run test $*
