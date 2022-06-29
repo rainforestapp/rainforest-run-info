@@ -10,28 +10,23 @@ To install run
 npm install --save @rainforestqa/rainforest-run-info
 ```
 
-Then use it in your frontend code like shown in the following examples. 
+Then use it in your frontend code like this (please note that `fetchRunInfo` is an async function):
 
 ## ES modules
 ```javascript
 import { fetchRunInfo } from '@rainforestqa/rainforest-run-info';
 
-const setSentryContext = async () => {
+const setSentryRunInfo = async () => {
   const { error, resultUrl, runId, testId } = await fetchRunInfo();
-  
-  if (error) {
-    // handle fetching error
-  } else {
-    // example usage - adds a URL pointing to the test result in Rainforest QA to Sentry context for easier debugging
-    window.Sentry.setContext({
-      rainforest_run_test_url: resultUrl,
-      rainforest_run_id: runId,
-      rainforest_test_id: testId,
-    });
+
+  if (!error) {
+      window.Sentry.setTag('rainforest_run_test_url', resultUrl);
+      window.Sentry.setTag('rainforest_run_id', runId);
+      window.Sentry.setTag('rainforest_test_id', testId);
   }
 };
 
-setSentryContext();
+setSentryRunInfo();
 ```
 
 ## Script tag
