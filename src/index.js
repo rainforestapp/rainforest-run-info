@@ -10,13 +10,26 @@ export const fetchRunInfo = async () => {
     if (response.status >= 400) {
       return { error: responseJson.message || response.status };
     }
-    const { run_id: runId, test_id: testId } = responseJson;
-    let resultUrl =
-      'Run ID or test ID is missing in response, result URL can not be created.';
-    if (runId && testId) {
-      resultUrl = `https://app.rainforestqa.com/runs/${runId}/tests/${testId}`;
+    const {
+      run_id: runId,
+      test_id: testId,
+      job_id: jobId,
+      browser: platform,
+    } = responseJson;
+    let resultUrl = 'Result URL can not be created.',
+      resultUrlAtCurrentTime = () => undefined;
+    if (runId && testId && jobId && platform) {
+      resultUrl = `https://app.rainforestqa.com/runs/${runId}/tests/${testId}/browsers/${platform}?job=${jobId}`;
+      resultUrlAtCurrentTime = () => `${resultUrl}&video_start=${Date.now()}`;
     }
-    return { resultUrl, runId, testId };
+    return {
+      resultUrl,
+      runId,
+      testId,
+      jobId,
+      platform,
+      resultUrlAtCurrentTime,
+    };
   } catch (e) {
     return { error: e.message };
   }
