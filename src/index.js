@@ -1,6 +1,7 @@
 import fetch from 'cross-fetch';
 
-const MACHINE_METADATA_API_URL = 'https://run-info.rainforestqa.com/latest/metadata';
+const MACHINE_METADATA_API_URL =
+  'https://run-info.rainforestqa.com/latest/metadata';
 
 export const fetchRunInfo = async () => {
   try {
@@ -10,7 +11,8 @@ export const fetchRunInfo = async () => {
       return { error: responseJson.message || response.status };
     }
     const { run_id: runId, test_id: testId } = responseJson;
-    let resultUrl = 'Run ID or test ID is missing in response, result URL can not be created.';
+    let resultUrl =
+      'Run ID or test ID is missing in response, result URL can not be created.';
     if (runId && testId) {
       resultUrl = `https://app.rainforestqa.com/runs/${runId}/tests/${testId}`;
     }

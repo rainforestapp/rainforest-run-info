@@ -12,7 +12,9 @@ describe('fetchRunInfo', () => {
 
     const response = await fetchRunInfo();
 
-    expect(fetch).toBeCalledWith('https://run-info.rainforestqa.com/latest/metadata');
+    expect(fetch).toBeCalledWith(
+      'https://run-info.rainforestqa.com/latest/metadata'
+    );
     expect(response).toEqual({
       resultUrl: 'https://app.rainforestqa.com/runs/33/tests/1337',
       runId: 33,
@@ -26,7 +28,8 @@ describe('fetchRunInfo', () => {
     const response = await fetchRunInfo();
 
     expect(response).toEqual({
-      resultUrl: 'Run ID or test ID is missing in response, result URL can not be created.',
+      resultUrl:
+        'Run ID or test ID is missing in response, result URL can not be created.',
       runId: undefined,
       testId: undefined,
     });
