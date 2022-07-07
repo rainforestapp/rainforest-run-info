@@ -17,5 +17,6 @@ add_asdf_plugin() {
 }
 
 add_asdf_plugin "yarn"
+add_asdf_plugin "nodejs"
 asdf install
 yarn install --frozen-lockfile
