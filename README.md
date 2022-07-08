@@ -17,12 +17,17 @@ Then use it in your frontend code like this (please note that `fetchRunInfo` is 
 import { fetchRunInfo } from '@rainforestqa/rainforest-run-info';
 
 const setSentryRunInfo = async () => {
-  const { error, resultUrl, runId, testId } = await fetchRunInfo();
+  const { error, resultUrlAtCurrentTime, runId, testId } = await fetchRunInfo();
 
   if (!error) {
-      window.Sentry.setTag('rainforest_run_test_url', resultUrl);
       window.Sentry.setTag('rainforest_run_id', runId);
       window.Sentry.setTag('rainforest_test_id', testId);
+      window.Sentry.configureScope(scope => {
+        scope.addEventProcessor(event => {
+          event.tags.rainforest_result_url = resultUrlAtCurrentTime();
+          return event;
+        });
+      })
   }
 };
 
