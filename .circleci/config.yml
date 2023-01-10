@@ -55,6 +55,21 @@ jobs:
           command: |
             aws s3 sync dist s3://static.rainforestqa.com/rainforest-run-info/ --acl public-read --cache-control max-age=60
 
+  update_jira:
+    docker:
+      - image: alpine:3.8
+        auth:
+          username: $DOCKERHUB_USERNAME
+          password: $DOCKERHUB_TOKEN
+    steps:
+      - run:
+          name: Install dependencies
+          command: apk add --no-cache bash curl git openssh
+      - checkout
+      - run:
+          name: Update JIRA
+          command: .circleci/update-jira.sh
+
 workflows:
   version: 2
   build_and_upload:
@@ -65,9 +80,17 @@ workflows:
             branches:
               only: master
       - upload_release:
+          context:
+            - frontend-s3-sync
           requires:
             - test
             - build
           filters:
             branches:
               only: master
+      - update_jira:
+          requires:
+            - upload_release
+          context:
+            - DockerHub
+            - update-jira-webhook
