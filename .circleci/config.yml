@@ -80,6 +80,8 @@ workflows:
             branches:
               only: master
       - upload_release:
+          context:
+            - frontend-s3-sync
           requires:
             - test
             - build
