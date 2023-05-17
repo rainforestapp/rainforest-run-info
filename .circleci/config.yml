@@ -55,6 +55,22 @@ jobs:
           command: |
             aws s3 sync dist s3://static.rainforestqa.com/rainforest-run-info/ --acl public-read --cache-control max-age=60
 
+  publish_to_npm:
+    docker:
+      - image: circleci/node
+        auth:
+          username: $DOCKERHUB_USERNAME
+          password: $DOCKERHUB_TOKEN
+    steps:
+      - attach_workspace:
+          at: ~/rainforestapp/rainforest-run-info
+      - run:
+          name: Write NPM Token to ~/.npmrc
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+      - run:
+          name: Publish to NPM
+          command: npm publish --access=public
+
   update_jira:
     docker:
       - image: alpine:3.8
@@ -79,6 +95,9 @@ workflows:
           filters:
             branches:
               only: master
+            tags:
+              only:
+                - /^v.*/
       - upload_release:
           context:
             - frontend-s3-sync
@@ -88,6 +107,17 @@ workflows:
           filters:
             branches:
               only: master
+      - publish_to_npm:
+          context:
+            - DockerHub
+            - NPM
+          filters:
+            branches:
+              ignore:
+                - /.*/
+            tags:
+              only:
+                - /^v.*/
       - update_jira:
           requires:
             - upload_release
