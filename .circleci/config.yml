@@ -62,8 +62,8 @@ jobs:
           username: $DOCKERHUB_USERNAME
           password: $DOCKERHUB_TOKEN
     steps:
-      - attach_workspace:
-          at: ~/rainforestapp/rainforest-run-info
+      - checkout
+      - install_dependencies
       - run:
           name: Write NPM Token to ~/.npmrc
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
@@ -92,12 +92,9 @@ workflows:
     jobs:
       - test
       - build:
-          filters:
-            branches:
-              only: master
-            tags:
-              only:
-                - /^v.*/
+        filters:
+          branches:
+            only: master
       - upload_release:
           context:
             - frontend-s3-sync
@@ -111,6 +108,8 @@ workflows:
           context:
             - DockerHub
             - NPM
+          requires:
+            - test
           filters:
             branches:
               ignore:
