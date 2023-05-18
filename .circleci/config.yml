@@ -90,7 +90,10 @@ workflows:
   version: 2
   build_and_upload:
     jobs:
-      - test
+      - test:
+        filters:
+          tags:
+            only: /^v.*/
       - build:
         filters:
           branches:
@@ -112,11 +115,9 @@ workflows:
             - test
           filters:
             branches:
-              ignore:
-                - /.*/
+              ignore: /.*/
             tags:
-              only:
-                - /^v.*/
+              only: /^v.*/
       - update_jira:
           requires:
             - upload_release
