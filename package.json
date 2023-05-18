@@ -1,8 +1,12 @@
 {
   "name": "@rainforestqa/rainforest-run-info",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Provides access to information about the currently executed Rainforest QA run test environment.",
   "main": "./dist/main.js",
+  "exports": {
+    "require": "./dist/main.js",
+    "import": "./src/index.js"
+  },
   "files": [
     "dist",
     "LICENSE.txt",
