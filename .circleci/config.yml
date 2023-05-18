@@ -90,10 +90,7 @@ workflows:
   version: 2
   build_and_upload:
     jobs:
-      - test:
-        filters:
-          tags:
-            only: /^v.*/
+      - test
       - build:
         filters:
           branches:
@@ -107,6 +104,20 @@ workflows:
           filters:
             branches:
               only: master
+      - update_jira:
+          requires:
+            - upload_release
+          context:
+            - DockerHub
+            - update-jira-webhook
+  publish_to_npm:
+    jobs:
+      - test:
+          filters:
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v.*/
       - publish_to_npm:
           context:
             - DockerHub
@@ -118,9 +129,3 @@ workflows:
               ignore: /.*/
             tags:
               only: /^v.*/
-      - update_jira:
-          requires:
-            - upload_release
-          context:
-            - DockerHub
-            - update-jira-webhook
